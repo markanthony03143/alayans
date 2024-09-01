@@ -1,0 +1,44 @@
+/User Management
+	Add User	Allows administrators to add new users with details such as name, email, role, and password. Should add superadmin that will manage the admins.			
+	Edit User	Enables administrators to update user details, including role changes and password resets.			
+	Delete User	Allows administrators to remove users from the system.			
+	View Users	Displays a list of all users with their details and roles.			
+/User Authentication	
+	Login	Validates user credentials and creates a session or JWT token for authentication.			
+	Logout	Clears the user's session or token.			
+/Room Management	
+	Add Room	Allows administrators to add new meeting rooms with details such as name, location, capacity, and available facilities.			
+	Edit Room	Enables administrators to update room details in the database.			
+	Delete Room	Allows administrators to remove meeting rooms from the database.			
+	View Rooms	Displays a list of all meeting rooms with their details.			
+/Booking Management	
+	Create Booking	Allows users to book a meeting room by selecting room, date, time, and duration.			
+	Edit Booking	Enables users to update their existing bookings.			
+	Cancel Booking	Allows users to cancel their bookings.			
+	View Bookings	Displays a list of all bookings, with options to filter by room, date, and user.			
+Recurring Bookings	
+	Create Recurring Booking	Allows users to create bookings that repeat at specified intervals (e.g., daily, weekly).			
+	Edit Recurring Booking	Enables users to update their recurring bookings.			
+	Cancel Recurring Booking	Allows users to cancel their recurring bookings.			
+Notifications	
+	Booking Notifications	Sends notifications to users upon booking creation, update, and cancellation.	Optional		
+	Reminder Notifications	Sends reminders to users before their bookings start.	Optional		
+Reporting & Analytics	
+	Booking Summary	Summarizes booking data by room, date, and user.			
+	Room Usage Report	Generates reports on room usage, including total bookings, peak usage times, and user activity.			
+Settings & Preferences	
+	Set Preferences	Allows users to set personal preferences such as notification settings and default booking duration.		
+
+
+Admins
+	User Authentication
+	User Management
+	Room Management
+	Reporting & Analytics
+
+Users
+	User Authentication
+	Booking Management
+	Recurring Bookings
+	Notifications
+	Settings & Preferences
