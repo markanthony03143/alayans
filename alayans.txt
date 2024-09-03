@@ -10,12 +10,12 @@
 	Add Room	Allows administrators to add new meeting rooms with details such as name, location, capacity, and available facilities.			
 	Edit Room	Enables administrators to update room details in the database.			
 	Delete Room	Allows administrators to remove meeting rooms from the database.			
-	View Rooms	Displays a list of all meeting rooms with their details.			
+	!View Rooms	Displays a list of all meeting rooms with their details.			
 /Booking Management	
 	Create Booking	Allows users to book a meeting room by selecting room, date, time, and duration.			
 	Edit Booking	Enables users to update their existing bookings.			
 	Cancel Booking	Allows users to cancel their bookings.			
-	View Bookings	Displays a list of all bookings, with options to filter by room, date, and user.			
+	!View Bookings	Displays a list of all bookings, with options to filter by room, date, and user.			
 Recurring Bookings	
 	Create Recurring Booking	Allows users to create bookings that repeat at specified intervals (e.g., daily, weekly).			
 	Edit Recurring Booking	Enables users to update their recurring bookings.			

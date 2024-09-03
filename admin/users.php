@@ -26,13 +26,44 @@
         .modal-content{
             border-radius: 0;
         }
+        .pagination .page-link:hover {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .pagination .page-item.active .page-link {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+        }
+        .pagination .page-link {
+            color: #dc3545;
+        }
+        .pagination .page-link:hover,
+        .pagination .page-item.active .page-link {
+            color: #fff;
+        }
     </style>
 </head>
 <body>
-    <?php include 'navbar.php'; ?>
+    <?php 
+        include 'navbar.php'; 
+        $itemsPerPage = 10;
+        $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+        $search = isset($_GET['search']) ? $_GET['search'] : '';
+    ?>
     <div class="container mt-5">
         <h1 class="fw-bold mb-3">Users</h1>
-        <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addUserModal">Add User</button>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addUserModal">Add User</button>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search users" aria-label="Search" name="search">
+                <button class="btn btn-outline-dark" type="submit">Search</button>
+            </form>
+        </div>
         <div class="table-responsive">
             <table class="table table-striped mt-3 align-middle">
                 <thead>
@@ -40,8 +71,6 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Role</th>
-                        <th>Password</th>
                         <th class="action-column">Actions</th>
                     </tr>
                 </thead>
@@ -60,17 +89,37 @@
                         </td>
                     </tr> -->
                     <?php
-                        for($i = 1; $i <= 10; $i++){
+                        $users = [];
+                        for ($i = 1; $i <= 30; $i++) {
+                            $users[] = [
+                                'id' => $i,
+                                'name' => 'John Doe',
+                                'email' => 'john@doe.com'
+                            ];
+                        }
+
+                        $filteredUsers = array_filter($users, function($user) use ($search) {
+                            return empty($search) || 
+                                stripos($user['name'], $search) !== false || 
+                                stripos($user['email'], $search) !== false;
+                        });
+    
+                        $totalItems = count($filteredUsers);
+                        $totalPages = ceil($totalItems / $itemsPerPage);
+                        $currentPage = min($currentPage, $totalPages);
+    
+                        $offset = ($currentPage - 1) * $itemsPerPage;
+                        $paginatedUsers = array_slice($filteredUsers, $offset, $itemsPerPage);
+    
+                        foreach ($paginatedUsers as $user) {
                             echo "<tr>
-                                <td>$i</td>
-                                <td>John Doe</td>
-                                <td>john@doe.com</td>
-                                <td>Admin</td>
-                                <td>123456</td>
+                                <td>{$user['id']}</td>
+                                <td>{$user['name']}</td>
+                                <td>{$user['email']}</td>
                                 <td class='action-column'>
                                     <div class='action-buttons'>
-                                        <button class='btn btn-outline-danger btn-sm' data-bs-toggle='modal' data-bs-target='#editUserModal' data-user-id='$i'>Edit</button>
-                                        <button class='btn btn-danger btn-sm' data-bs-toggle='modal' data-bs-target='#deleteUserModal' data-user-id='$i'>Delete</button>
+                                        <button class='btn btn-outline-danger btn-sm' data-bs-toggle='modal' data-bs-target='#editUserModal' data-user-id='{$user['id']}'>Edit</button>
+                                        <button class='btn btn-danger btn-sm' data-bs-toggle='modal' data-bs-target='#deleteUserModal' data-user-id='{$user['id']}'>Delete</button>
                                     </div>
                                 </td>
                             </tr>";
@@ -80,6 +129,27 @@
             </table>
         </div>
     </div>
+
+    <!-- Pagination -->
+    <nav aria-label="User table navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item <?php echo $currentPage == 1 ? 'disabled' : ''; ?>">
+                <a class="page-link" href="?page=<?php echo $currentPage - 1; ?>&search=<?php echo urlencode($search); ?>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <li class="page-item <?php echo $i == $currentPage ? 'active' : ''; ?>">
+                    <a class="page-link" href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>"><?php echo $i; ?></a>
+                </li>
+            <?php endfor; ?>
+            <li class="page-item <?php echo $currentPage == $totalPages ? 'disabled' : ''; ?>">
+                <a class="page-link" href="?page=<?php echo $currentPage + 1; ?>&search=<?php echo urlencode($search); ?>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
     <!-- Add User Modal -->
     <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
