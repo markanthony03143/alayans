@@ -26,13 +26,81 @@
         .modal-content{
             border-radius: 0;
         }
+        .pagination .page-link:hover {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .pagination .page-item.active .page-link {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+        }
+        .pagination .page-link {
+            color: #dc3545;
+        }
+        .pagination .page-link:hover,
+        .pagination .page-item.active .page-link {
+            color: #fff;
+        }
     </style>
 </head>
 <body>
-    <?php include 'navbar.php'; ?>
+    <?php include 
+        'navbar.php'; 
+        $itemsPerPage = 10;
+        $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+        $search = isset($_GET['search']) ? $_GET['search'] : '';
+
+        $rooms = [
+            ['id' => 1, 'name' => 'Boardroom A', 'location' => '1st Floor', 'capacity' => 20, 'facilities' => 'Projector, Whiteboard'],
+            ['id' => 2, 'name' => 'Conference Room B', 'location' => '2nd Floor', 'capacity' => 50, 'facilities' => 'Video conferencing, Smart TV'],
+            ['id' => 3, 'name' => 'Meeting Room C', 'location' => '3rd Floor', 'capacity' => 10, 'facilities' => 'Whiteboard'],
+            ['id' => 4, 'name' => 'Executive Suite', 'location' => '5th Floor', 'capacity' => 8, 'facilities' => 'Video conferencing, Catering'],
+            ['id' => 5, 'name' => 'Training Room', 'location' => 'Basement', 'capacity' => 30, 'facilities' => 'Projector, Computers'],
+        ];
+
+        $facilities = ['Projector', 'Whiteboard', 'Video conferencing', 'Smart TV', 'Catering', 'Computers'];
+
+        for ($i = 6; $i <= 30; $i++) {
+            $roomFacilities = array_rand(array_flip($facilities), rand(1, 3));
+            $roomFacilities = is_array($roomFacilities) ? $roomFacilities : [$roomFacilities];
+            
+            $rooms[] = [
+                'id' => $i,
+                'name' => 'Room ' . chr(64 + ($i % 26 + 1)), // This will cycle through A-Z
+                'location' => (($i % 5) + 1) . ord('st') . ' Floor',
+                'capacity' => rand(5, 50),
+                'facilities' => implode(', ', $roomFacilities)
+            ];
+        }
+
+        $filteredRooms = array_filter($rooms, function($room) use ($search) {
+            return empty($search) || 
+                   stripos($room['name'], $search) !== false || 
+                   stripos($room['location'], $search) !== false ||
+                   stripos($room['facilities'], $search) !== false;
+        });
+        
+        $totalItems = count($filteredRooms);
+        $totalPages = ceil($totalItems / $itemsPerPage);
+        $currentPage = min($currentPage, $totalPages);
+        
+        $offset = ($currentPage - 1) * $itemsPerPage;
+        $paginatedRooms = array_slice($filteredRooms, $offset, $itemsPerPage);
+    ?>
     <div class="container mt-5">
         <h1 class="fw-bold mb-3">Meeting Rooms</h1>
-        <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addRoomModal">Add Room</button>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addRoomModal">Add Room</button>
+            <form class="d-flex" method="GET">
+                <input class="form-control me-2" type="search" placeholder="Search rooms" aria-label="Search" name="search" value="<?php echo htmlspecialchars($search); ?>">
+                <button class="btn btn-outline-dark" type="submit">Search</button>
+            </form>
+        </div>
         <div class="table-responsive">
             <table class="table table-striped mt-3 align-middle">
                 <thead>
@@ -46,35 +114,46 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                        $rooms = [
-                            ['id' => 1, 'name' => 'Boardroom A', 'location' => '1st Floor', 'capacity' => 20, 'facilities' => 'Projector, Whiteboard'],
-                            ['id' => 2, 'name' => 'Conference Room B', 'location' => '2nd Floor', 'capacity' => 50, 'facilities' => 'Video conferencing, Smart TV'],
-                            ['id' => 3, 'name' => 'Meeting Room C', 'location' => '3rd Floor', 'capacity' => 10, 'facilities' => 'Whiteboard'],
-                            ['id' => 4, 'name' => 'Executive Suite', 'location' => '5th Floor', 'capacity' => 8, 'facilities' => 'Video conferencing, Catering'],
-                            ['id' => 5, 'name' => 'Training Room', 'location' => 'Basement', 'capacity' => 30, 'facilities' => 'Projector, Computers'],
-                        ];
-
-                        foreach ($rooms as $room) {
-                            echo "<tr>
-                                <td>{$room['id']}</td>
-                                <td>{$room['name']}</td>
-                                <td>{$room['location']}</td>
-                                <td>{$room['capacity']}</td>
-                                <td>{$room['facilities']}</td>
-                                <td class='action-column'>
-                                    <div class='action-buttons'>
-                                        <button class='btn btn-outline-danger btn-sm' data-bs-toggle='modal' data-bs-target='#editRoomModal' data-room-id='{$room['id']}'>Edit</button>
-                                        <button class='btn btn-danger btn-sm' data-bs-toggle='modal' data-bs-target='#deleteRoomModal' data-room-id='{$room['id']}'>Delete</button>
-                                    </div>
-                                </td>
-                            </tr>";
-                        }
-                    ?>
+                    <?php foreach ($paginatedRooms as $room): ?>
+                        <tr>
+                            <td><?php echo $room['id']; ?></td>
+                            <td><?php echo $room['name']; ?></td>
+                            <td><?php echo $room['location']; ?></td>
+                            <td><?php echo $room['capacity']; ?></td>
+                            <td><?php echo $room['facilities']; ?></td>
+                            <td class='action-column'>
+                                <div class='action-buttons'>
+                                    <button class='btn btn-outline-danger btn-sm' data-bs-toggle='modal' data-bs-target='#editRoomModal' data-room-id='<?php echo $room['id']; ?>'>Edit</button>
+                                    <button class='btn btn-danger btn-sm' data-bs-toggle='modal' data-bs-target='#deleteRoomModal' data-room-id='<?php echo $room['id']; ?>'>Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
     </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Room table navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item <?php echo $currentPage == 1 ? 'disabled' : ''; ?>">
+                <a class="page-link" href="?page=<?php echo $currentPage - 1; ?>&search=<?php echo urlencode($search); ?>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <li class="page-item <?php echo $i == $currentPage ? 'active' : ''; ?>">
+                    <a class="page-link" href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>"><?php echo $i; ?></a>
+                </li>
+            <?php endfor; ?>
+            <li class="page-item <?php echo $currentPage == $totalPages ? 'disabled' : ''; ?>">
+                <a class="page-link" href="?page=<?php echo $currentPage + 1; ?>&search=<?php echo urlencode($search); ?>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
     <!-- Add Room Modal -->
     <div class="modal fade" id="addRoomModal" tabindex="-1" aria-labelledby="addRoomModalLabel" aria-hidden="true">

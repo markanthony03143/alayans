@@ -170,15 +170,6 @@
                             <input type="email" class="form-control" id="userEmail" required>
                         </div>
                         <div class="mb-3">
-                            <label for="userRole" class="form-label">Role</label>
-                            <select class="form-select" id="userRole" required>
-                                <option value="">Select a role</option>
-                                <option value="Super Admin">Super Admin</option>
-                                <option value="Admin">Admin</option>
-                                <option value="User">User</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
                             <label for="userPassword" class="form-label">Password</label>
                             <input type="password" class="form-control" id="userPassword" required>
                         </div>
@@ -214,8 +205,6 @@
                         <div class="mb-3">
                             <label for="editUserRole" class="form-label">Role</label>
                             <select class="form-select" id="editUserRole" required>
-                                <option value="">Select a role</option>
-                                <option value="Super Admin">Super Admin</option>
                                 <option value="Admin">Admin</option>
                                 <option value="User">User</option>
                             </select>
@@ -273,7 +262,7 @@
             // For this example, we'll just set some placeholder data
             editUserModal.querySelector('#editUserName').value = 'John Doe'
             editUserModal.querySelector('#editUserEmail').value = 'john@doe.com'
-            editUserModal.querySelector('#editUserRole').value = 'Admin'
+            editUserModal.querySelector('#editUserRole').value = 'User'
             editUserModal.querySelector('#editUserPassword').value = ''
         })
 
