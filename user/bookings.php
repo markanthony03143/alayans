@@ -26,13 +26,77 @@
         .modal-content{
             border-radius: 0;
         }
+        .pagination .page-link:hover {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .pagination .page-item.active .page-link {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+        }
+        .pagination .page-link {
+            color: #dc3545;
+        }
+        .pagination .page-link:hover,
+        .pagination .page-item.active .page-link {
+            color: #fff;
+        }
     </style>
 </head>
 <body>
-    <?php include 'navbar.php'; ?>
+    <?php include
+        'navbar.php'; 
+        $itemsPerPage = 10;
+        $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+        $search = isset($_GET['search']) ? $_GET['search'] : '';    
+
+        // Sample booking data
+        $bookings = [
+            ['id' => 1, 'room' => 'Conference Room B', 'date' => '2023-05-15', 'time' => '09:00 AM', 'duration' => 2],
+            ['id' => 2, 'room' => 'Meeting Room C', 'date' => '2023-05-16', 'time' => '11:00 AM', 'duration' => 1],
+            ['id' => 3, 'room' => 'BoardRoom A', 'date' => '2023-05-17', 'time' => '01:30 PM', 'duration' => 3],
+            ['id' => 4, 'room' => 'Training Room', 'date' => '2023-05-18', 'time' => '03:30 PM', 'duration' => 1],
+            ['id' => 5, 'room' => 'Executive Suite', 'date' => '2023-05-19', 'time' => '05:00 PM', 'duration' => 4],
+        ];
+
+        for ($i = 6; $i <= 50; $i++) {
+            $bookings[] = [
+                'id' => $i,
+                'room' => 'Room ' . chr(64 + ($i % 5 + 1)),
+                'date' => date('Y-m-d', strtotime("+$i days")),
+                'time' => date('H:i', strtotime("+$i hours")),
+                'duration' => rand(1, 4)
+            ];
+        }
+
+        $filteredBookings = array_filter($bookings, function($booking) use ($search) {
+            return empty($search) || 
+                   stripos($booking['room'], $search) !== false || 
+                   stripos($booking['date'], $search) !== false ||
+                   stripos($booking['time'], $search) !== false;
+        });
+        
+        $totalItems = count($filteredBookings);
+        $totalPages = ceil($totalItems / $itemsPerPage);
+        $currentPage = min($currentPage, $totalPages);
+        
+        $offset = ($currentPage - 1) * $itemsPerPage;
+        $paginatedBookings = array_slice($filteredBookings, $offset, $itemsPerPage);
+    ?>
     <div class="container mt-5">
         <h1 class="fw-bold mb-3">Bookings</h1>
-        <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#bookRoomModal">Book a Room</button>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#bookRoomModal">Book a Room</button>
+            <form class="d-flex" method="GET">
+                <input class="form-control me-2" type="search" placeholder="Search bookings" aria-label="Search" name="search" value="<?php echo htmlspecialchars($search); ?>">
+                <button class="btn btn-outline-dark" type="submit">Search</button>
+            </form>
+        </div>
         <div class="table-responsive">
             <table class="table table-striped mt-3 align-middle">
                 <thead>
@@ -46,36 +110,46 @@
                     </tr>
                 </thead>
                 <tbody>
-                <?php
-                    // Sample booking data
-                    $bookings = [
-                        ['id' => 1, 'room' => 'Conference Room B', 'date' => '2023-05-15', 'time' => '09:00 AM', 'duration' => 2],
-                        ['id' => 2, 'room' => 'Meeting Room C', 'date' => '2023-05-16', 'time' => '11:00 AM', 'duration' => 1],
-                        ['id' => 3, 'room' => 'BoardRoom A', 'date' => '2023-05-17', 'time' => '01:30 PM', 'duration' => 3],
-                        ['id' => 4, 'room' => 'Training Room', 'date' => '2023-05-18', 'time' => '03:30 PM', 'duration' => 1],
-                        ['id' => 5, 'room' => 'Executive Suite', 'date' => '2023-05-19', 'time' => '05:00 PM', 'duration' => 4],
-                    ];
-
-                    foreach ($bookings as $booking) {
-                        echo "<tr>";
-                        echo "<td>" . $booking['id'] . "</td>";
-                        echo "<td>" . $booking['room'] . "</td>";
-                        echo "<td>" . $booking['date'] . "</td>";
-                        echo "<td>" . $booking['time'] . "</td>";
-                        echo "<td>" . $booking['duration'] . " hours</td>";
-                        echo "<td class='action-column'>
-                                <div class='action-buttons'>
-                                    <button class='btn btn-sm btn-outline-danger' data-bs-toggle='modal' data-bs-target='#editBookingModal' data-booking-id='" . $booking['id'] . "'>Edit</button>
-                                    <button class='btn btn-sm btn-danger' data-bs-toggle='modal' data-bs-target='#deleteBookingModal' data-booking-id='" . $booking['id'] . "'>Cancel</button>
+                    <?php foreach ($paginatedBookings as $booking): ?>
+                        <tr>
+                            <td><?php echo $booking['id']; ?></td>
+                            <td><?php echo $booking['room']; ?></td>
+                            <td><?php echo $booking['date']; ?></td>
+                            <td><?php echo $booking['time']; ?></td>
+                            <td><?php echo $booking['duration'] . ' ' . ($booking['duration'] > 1 ? 'hours' : 'hour'); ?></td>
+                            <td class="action-column">
+                                <div class="action-buttons">
+                                    <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#editBookingModal" data-booking-id="<?php echo $booking['id']; ?>">Edit</button>
+                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteBookingModal" data-booking-id="<?php echo $booking['id']; ?>">Cancel</button>
                                 </div>
-                              </td>";
-                        echo "</tr>";
-                    }
-                    ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
     </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Booking table navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item <?php echo $currentPage == 1 ? 'disabled' : ''; ?>">
+                <a class="page-link" href="?page=<?php echo $currentPage - 1; ?>&search=<?php echo urlencode($search); ?>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <li class="page-item <?php echo $i == $currentPage ? 'active' : ''; ?>">
+                    <a class="page-link" href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>"><?php echo $i; ?></a>
+                </li>
+            <?php endfor; ?>
+            <li class="page-item <?php echo $currentPage == $totalPages ? 'disabled' : ''; ?>">
+                <a class="page-link" href="?page=<?php echo $currentPage + 1; ?>&search=<?php echo urlencode($search); ?>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
     <!-- Book Room Modal -->
     <div class="modal fade" id="bookRoomModal" tabindex="-1" aria-labelledby="bookRoomModalLabel" aria-hidden="true">
