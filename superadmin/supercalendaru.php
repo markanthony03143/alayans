@@ -67,7 +67,7 @@
     <?php include 'SAnavbar.php';?>
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12 mb-3">
                 <br>
                 <h2 class="fw-bold mb-3">Booking</h2>
                 <div id="calendar"></div>
