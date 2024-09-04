@@ -26,7 +26,7 @@
 Reporting & Analytics	
 	Booking Summary	Summarizes booking data by room, date, and user.			
 	Room Usage Report	Generates reports on room usage, including total bookings, peak usage times, and user activity.			
-Settings & Preferences	
+/Settings & Preferences	
 	Set Preferences	Allows users to set personal preferences such as notification settings and default booking duration.		
 Calendar Integration	
 	View Calendar	Integrates with calendar applications (e.g., Outlook, Google Calendar) to display bookings and allow users to book rooms directly from their calendars.
