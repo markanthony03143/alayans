@@ -10,7 +10,7 @@
             <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
 
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="/alayans/admin/users.php">ACCOUNT MANAGEMENT</a>
+                    <a class="nav-link text-light" href="/alayans/admin/users.php">ACCOUNTT MANAGEMENT</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-light" href="/alayans/admin/rooms.php">ROOMS</a>
