@@ -16,7 +16,7 @@
 	Edit Booking	Enables users to update their existing bookings.			
 	Cancel Booking	Allows users to cancel their bookings.			
 	View Bookings	Displays a list of all bookings, with options to filter by room, date, and user.			
-Recurring Bookings	
+/Recurring Bookings	
 	Create Recurring Booking	Allows users to create bookings that repeat at specified intervals (e.g., daily, weekly).			
 	Edit Recurring Booking	Enables users to update their recurring bookings.			
 	Cancel Recurring Booking	Allows users to cancel their recurring bookings.			

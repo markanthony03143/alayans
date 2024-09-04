@@ -170,7 +170,6 @@
                                 <option value="3">Meeting Room C</option>
                                 <option value="4">Executive Suite</option>
                                 <option value="5">Training Room</option>
-                                <!-- Add more room options as needed -->
                             </select>
                         </div>
                         <div class="mb-3">
@@ -184,6 +183,28 @@
                         <div class="mb-3">
                             <label for="bookDuration" class="form-label">Duration (hours)</label>
                             <input type="number" class="form-control" id="bookDuration" min="0.5" max="8" step="0.5" required>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="isRecurring">
+                                <label class="form-check-label" for="isRecurring">
+                                    Recurring Booking
+                                </label>
+                            </div>
+                        </div>
+                        <div id="recurringOptions" style="display: none;">
+                            <div class="mb-3">
+                                <label for="recurringType" class="form-label">Repeat</label>
+                                <select class="form-select" id="recurringType">
+                                    <option value="daily">Daily</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="recurringUntil" class="form-label">Until</label>
+                                <input type="date" class="form-control" id="recurringUntil">
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -229,11 +250,56 @@
                             <label for="editDuration" class="form-label">Duration (hours)</label>
                             <input type="number" class="form-control" id="editDuration" min="0.5" max="8" step="0.5" required>
                         </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="editIsRecurring">
+                                <label class="form-check-label" for="editIsRecurring">
+                                    Recurring Booking
+                                </label>
+                            </div>
+                        </div>
+                        <div id="editRecurringOptions" style="display: none;">
+                            <div class="mb-3">
+                                <label for="editRecurringType" class="form-label">Repeat</label>
+                                <select class="form-select" id="editRecurringType">
+                                    <option value="daily">Daily</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editRecurringUntil" class="form-label">Until</label>
+                                <input type="date" class="form-control" id="editRecurringUntil">
+                            </div>
+                        </div>
+                        <div id="editRecurringUpdateOptions" style="display: none;">
+                            <div class="mb-3">
+                                <label class="form-label">Update:</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="editRecurringUpdate" id="editRecurringUpdateThis" value="this" checked>
+                                    <label class="form-check-label" for="editRecurringUpdateThis">
+                                        This occurrence only
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="editRecurringUpdate" id="editRecurringUpdateFollowing" value="following">
+                                    <label class="form-check-label" for="editRecurringUpdateFollowing">
+                                        This and following occurrences
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="editRecurringUpdate" id="editRecurringUpdateAll" value="all">
+                                    <label class="form-check-label" for="editRecurringUpdateAll">
+                                        All occurrences
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-outline-danger">Update Booking</button>
+                    <button type="button" class="btn btn-dark" >Update Booking</button>
                 </div>
             </div>
         </div>
@@ -252,10 +318,33 @@
                     <p><strong>Booking Details:</strong></p>
                     <p id="cancelBookingDetails"></p>
                     <input type="hidden" id="cancelBookingId">
+                    <div id="cancelRecurringOptions" style="display: none;">
+                        <div class="mb-3">
+                            <label class="form-label">Cancel:</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="cancelRecurring" id="cancelRecurringThis" value="this" checked>
+                                <label class="form-check-label" for="cancelRecurringThis">
+                                    This occurrence only
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="cancelRecurring" id="cancelRecurringFollowing" value="following">
+                                <label class="form-check-label" for="cancelRecurringFollowing">
+                                    This and following occurrences
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="cancelRecurring" id="cancelRecurringAll" value="all">
+                                <label class="form-check-label" for="cancelRecurringAll">
+                                    All occurrences
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Keep Booking</button>
-                    <button type="button" class="btn btn-danger">Yes, Cancel Booking</button>
+                    <button type="button" class="btn btn-danger" >Yes, Cancel Booking</button>
                 </div>
             </div>
         </div>
@@ -291,17 +380,39 @@
             var modalTitle = deleteBookingModal.querySelector('.modal-title')
             var bookingIdInput = deleteBookingModal.querySelector('#cancelBookingId')
             var bookingDetails = deleteBookingModal.querySelector('#cancelBookingDetails')
+            var cancelRecurringOptions = deleteBookingModal.querySelector('#cancelRecurringOptions')
 
             modalTitle.textContent = 'Cancel Booking ' + bookingId
             bookingIdInput.value = bookingId
 
             // Here you would typically fetch the booking data and populate the details
             // For this example, we'll just set some placeholder data
+            var isRecurring = Math.random() < 0.5; // Randomly decide if the booking is recurring
+            var recurringType = isRecurring ? ['Daily', 'Weekly', 'Monthly'][Math.floor(Math.random() * 3)] : 'None';
+
             bookingDetails.innerHTML = 'Room: Conference Room B<br>' +
-                                       'Date: 2023-05-15<br>' +
-                                       'Time: 09:00 AM<br>' +
-                                       'Duration: 2 hours'
+                                    'Date: 2023-05-15<br>' +
+                                    'Time: 09:00 AM<br>' +
+                                    'Duration: 2 hours<br>' +
+                                    'Repeat: ' + recurringType;
+
+            if (isRecurring) {
+                cancelRecurringOptions.style.display = 'block';
+            } else {
+                cancelRecurringOptions.style.display = 'none';
+            }
         })
+
+        document.getElementById('isRecurring').addEventListener('change', function() {
+            document.getElementById('recurringOptions').style.display = this.checked ? 'block' : 'none';
+        });
+
+        document.getElementById('editIsRecurring').addEventListener('change', function() {
+            document.getElementById('editRecurringOptions').style.display = this.checked ? 'block' : 'none';
+            document.getElementById('editRecurringUpdateOptions').style.display = this.checked ? 'block' : 'none';
+        });
+
+
     </script>
 </body>
 </html>
