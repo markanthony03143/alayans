@@ -61,19 +61,35 @@
         .pagination .page-item.active .page-link {
             color: #fff;
         }
+        .synced-account, .calendar-sync {
+            font-family: Arial, sans-serif; 
+            font-size: 14px;
+        }
+
+        .label {
+            font-weight: bold; 
+            color: #000; 
+        }
+
+        .email {
+            color: #1a73e8; 
+        }
     </style>
 </head>
 <body>
-    <?php include 'navbar.php';?>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 mb-3">
-                <br>
-                <h2 class="fw-bold mb-3">Booking</h2>
-                <div id="calendar"></div>
-            </div>
+<?php include 'navbar.php'; ?>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <br>
+            <h2 class="fw-bold mb-3">Booking</h2>
+            <p class="synced-account">
+                Google Synced Account: <span class="email">macbooktest@gmail.com</span>
+            </p>
+            <div id="calendar"></div>
         </div>
     </div>
+</div>
 
     <!-- Event Entry Modal -->
     <div class="modal fade" id="event_entry_modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
