@@ -21,8 +21,8 @@
 	Edit Recurring Booking	Enables users to update their recurring bookings.			
 	Cancel Recurring Booking	Allows users to cancel their recurring bookings.			
 Notifications	
-	Booking Notifications	Sends notifications to users upon booking creation, update, and cancellation.	Optional		
-	Reminder Notifications	Sends reminders to users before their bookings start.	Optional		
+	Booking Notifications	Sends notifications to users upon booking creation, update, and cancellation.
+	Reminder Notifications	Sends reminders to users before their bookings start.
 Reporting & Analytics	
 	Booking Summary	Summarizes booking data by room, date, and user.			
 	Room Usage Report	Generates reports on room usage, including total bookings, peak usage times, and user activity.			
