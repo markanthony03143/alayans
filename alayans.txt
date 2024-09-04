@@ -20,7 +20,7 @@
 	Create Recurring Booking	Allows users to create bookings that repeat at specified intervals (e.g., daily, weekly).			
 	Edit Recurring Booking	Enables users to update their recurring bookings.			
 	Cancel Recurring Booking	Allows users to cancel their recurring bookings.			
-Notifications	
+/Notifications	
 	Booking Notifications	Sends notifications to users upon booking creation, update, and cancellation.
 	Reminder Notifications	Sends reminders to users before their bookings start.
 Reporting & Analytics	
