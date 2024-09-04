@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 shadow">
     <div class="container-fluid container">
-        <a class="navbar-brand me-5" href="/alayans/user/rooms.php">
+        <a class="navbar-brand me-5" href="/alayans/user/bookings.php">
             <img src="https://alliance.com.ph/images/asi-logo-invert.svg" alt="logo" width="180" height="auto">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
