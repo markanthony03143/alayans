@@ -163,13 +163,6 @@
                             <input type="email" class="form-control" id="editUserEmail" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editUserRole" class="form-label">Role</label>
-                            <select class="form-select" id="editUserRole" required>
-                                <option value="Admin">Admin</option>
-                                <option value="User">User</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
                             <label for="editUserPassword" class="form-label">Password</label>
                             <input type="password" class="form-control" id="editUserPassword" placeholder="Leave blank to keep current password">
                         </div>
