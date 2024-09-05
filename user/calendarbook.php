@@ -82,7 +82,7 @@
     <div class="row">
         <div class="col-lg-12">
             <br>
-            <h2 class="fw-bold mb-3">Booking</h2>
+            <h2 class="fw-bold mb-3">Calendar</h2>
             <p class="synced-account">
                 Google Synced Account: <span class="email">macbooktest@gmail.com</span>
             </p>
@@ -133,7 +133,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="save_event()">Save Booking</button>
+                    <button type="button" class="btn btn-dark" onclick="save_event()">Save Booking</button>
                 </div>
             </div>
         </div>
