@@ -19,6 +19,11 @@
             header("Location: admin/users.php");
             exit;
         }
+        else if($email == "superadmin@gmail.com" && $password == "superadmin"){
+            $_SESSION['superadmin'] = $email;
+            header("Location: superadmin/superadmin.php");
+            exit;
+        }
         else if($email == "user@gmail.com" && $password == "user"){
             $_SESSION['user'] = $email;
             header("Location: user/bookings.php");
