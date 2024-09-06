@@ -99,37 +99,135 @@
             </button>
         </div>
 
-       <!-- Add User Modal -->
-<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+        <!-- Add User Modal -->
+        <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUserModalLabel">Add Account</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="userName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="userName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="userEmail" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userRole" class="form-label">Select Role</label>
+                                <select class="form-select" id="userRole" required>
+                                    <option value="" disabled selected>Select Role</option>
+                                    <option value="User">User</option>
+                                    <option value="Admin">Admin</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="userPassword" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Account</button>
+                            <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="input-group" style="width: 300px;">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search users...">
+            <button class="btn btn-outline-secondary" type="button" onclick="searchTable()">Search</button>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped mt-3 align-middle" id="userTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th class="action-column">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+            <?php
+                $users = [
+                    ['John Doe', 'user1@user.com', 'User'],
+                    ['John Did', 'admin1@admin.com', 'Admin'],
+                    ['John Done', 'user2@user.com', 'User'],
+                    ['John Dont', 'admin2@admin.com', 'Admin'],
+                    ['John Didnt', 'user3@user.com', 'User'],
+                    ['Mark Doe', 'admin3@admin.com', 'Admin'],
+                    ['Mark Did', 'user4@user.com', 'User'],
+                    ['Mark Done', 'admin4@admin.com', 'Admin'],
+                    ['Mark Dont', 'user5@user.com', 'User'],
+                    ['Mark Didnt', 'admin5@admin.com', 'Admin'],
+                ];
+
+                foreach ($users as $index => $user) {
+                    $id = $index + 1;
+                    $name = $user[0];
+                    $email = $user[1];
+                    $role = $user[2];
+                    echo "<tr>
+                        <td>$id</td>
+                        <td>$name</td>
+                        <td>$email</td>
+                        <td>$role</td>
+                        <td class='action-column'>
+                            <div class='action-buttons'>
+                                <button class='btn btn-outline-danger btn-sm' data-bs-toggle='modal' data-bs-target='#editUserModal' data-user-id='$id' onclick='editUser($id, \"$name\", \"$email\", \"$role\")'>Edit</button>
+                                <button class='btn btn-danger btn-sm' data-bs-toggle='modal' data-bs-target='#deleteUserModal' data-user-id='$id' onclick='deleteUser($id)'>Delete</button>
+                            </div>
+                        </td>
+                    </tr>";
+                }
+            ?>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination-container">
+        <nav>
+            <ul class="pagination" id="pagination">
+                <!-- Pagination numbers will be dynamically generated here -->
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<!-- Edit User Modal -->
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addUserModalLabel">Add Account</h5>
+                <h5 class="modal-title" id="editUserModalLabel">Edit Account</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="mb-3">
-                        <label for="userName" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="userName" required>
+                        <label for="editUserName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="editUserName" required>
                     </div>
                     <div class="mb-3">
-                        <label for="userEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="userEmail" required>
+                        <label for="editUserEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="editUserEmail" required>
                     </div>
                     <div class="mb-3">
-                        <label for="userRole" class="form-label">Select Role</label>
-                        <select class="form-select" id="userRole" required>
-                            <option value="" disabled selected>Select Role</option>
+                        <label for="editUserRole" class="form-label">Select Role</label>
+                        <select class="form-select" id="editUserRole" required>
                             <option value="User">User</option>
                             <option value="Admin">Admin</option>
                         </select>
                     </div>
-                    <div class="mb-3">
-                        <label for="userPassword" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="userPassword" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add Account</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
                     <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
                 </form>
             </div>
@@ -137,101 +235,51 @@
     </div>
 </div>
 
-
-
-            <!-- Search Bar -->
-            <div class="input-group" style="width: 300px;">
-                <input type="text" id="searchInput" class="form-control" placeholder="Search users...">
-                <button class="btn btn-outline-secondary" type="button" onclick="searchTable()">Search</button>
+<!-- Delete User Modal -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteUserModalLabel">Delete Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this account?</p>
+                <button type="button" class="btn btn-danger">Delete</button>
+                <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
-
-        <div class="table-responsive">
-            <table class="table table-striped mt-3 align-middle" id="userTable">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th class="action-column">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="userTableBody">
-                <?php
-    $users = [
-        ['John Doe', 'user1@user.com', 'User'],
-        ['John Did', 'admin1@admin.com', 'Admin'],
-        ['John Done', 'user2@user.com', 'User'],
-        ['John Dont', 'admin2@admin.com', 'Admin'],
-        ['John Didnt', 'user3@user.com', 'User'],
-        ['Mark Doe', 'admin3@admin.com', 'Admin'],
-        ['Mark Did', 'user4@user.com', 'User'],
-        ['Mark Done', 'admin4@admin.com', 'Admin'],
-        ['Mark Dont', 'user5@user.com', 'User'],
-        ['Mark Didnt', 'admin5@admin.com', 'Admin'],
-    ];
-
-    foreach ($users as $index => $user) {
-        $id = $index + 1;
-        $name = $user[0];
-        $email = $user[1];
-        $role = $user[2];
-        echo "<tr>
-            <td>$id</td>
-            <td>$name</td>
-            <td>$email</td>
-            <td>$role</td>
-            <td class='action-column'>
-                <div class='action-buttons'>
-                    <button class='btn btn-outline-danger btn-sm' data-bs-toggle='modal' data-bs-target='#editUserModal' data-user-id='$id'>Edit</button>
-                    <button class='btn btn-danger btn-sm' data-bs-toggle='modal' data-bs-target='#deleteUserModal' data-user-id='$id'>Delete</button>
-                </div>
-            </td>
-        </tr>";
-    }
-?>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="pagination-container">
-            <nav>
-                <ul class="pagination" id="pagination">
-                    <!-- Pagination numbers will be dynamically generated here -->
-                </ul>
-            </nav>
-        </div>
     </div>
+</div>
 
-    <script>
-        let currentPage = 1;
-        const rowsPerPage = 5;
-        const table = document.getElementById('userTable');
-        const tbody = table.querySelector('tbody');
-        const rows = tbody.getElementsByTagName('tr');
-        const totalPages = Math.ceil(rows.length / rowsPerPage);
+<script>
+    let currentPage = 1;
+    const rowsPerPage = 5;
+    const table = document.getElementById('userTable');
+    const tbody = table.querySelector('tbody');
+    const rows = tbody.getElementsByTagName('tr');
+    const totalPages = Math.ceil(rows.length / rowsPerPage);
 
-        function paginate(direction) {
-            currentPage += direction;
-            currentPage = Math.max(1, Math.min(currentPage, totalPages));
-            displayRows();
+    function paginate(direction) {
+        currentPage += direction;
+        currentPage = Math.max(1, Math.min(currentPage, totalPages));
+        displayRows();
+    }
+
+    function goToPage(page) {
+        currentPage = page;
+        displayRows();
+    }
+
+    function displayRows() {
+        // Display rows based on the current page
+        for (let i = 0; i < rows.length; i++) {
+            rows[i].style.display = (i >= (currentPage - 1) * rowsPerPage && i < currentPage * rowsPerPage) ? '' : 'none';
         }
+        updatePaginationControls();
+    }
 
-        function goToPage(page) {
-            currentPage = page;
-            displayRows();
-        }
-
-        function displayRows() {
-            // Display rows based on the current page
-            for (let i = 0; i < rows.length; i++) {
-                rows[i].style.display = (i >= (currentPage - 1) * rowsPerPage && i < currentPage * rowsPerPage) ? '' : 'none';
-            }
-            updatePaginationControls();
-        }
-
-        function updatePaginationControls() {
+    function updatePaginationControls() {
         const pagination = document.getElementById('pagination');
         pagination.innerHTML = '';
 
@@ -255,18 +303,31 @@
         nextItem.innerHTML = `<a class="page-link" href="#" onclick="paginate(1)">&raquo;</a>`;
         pagination.appendChild(nextItem);
     }
-        function filterByRole(role) {
-            // Filter rows based on the selected role
-            for (let i = 0; i < rows.length; i++) {
-                const roleCell = rows[i].getElementsByTagName('td')[3]; // 4th column is Role
-                rows[i].style.display = (role === 'All' || roleCell.textContent === role) ? '' : 'none';
-            }
-            updatePaginationControls(); // Update pagination after filtering
-        }
 
-        // Initial display of rows and pagination controls
-        displayRows();
-    </script>
+    function filterByRole(role) {
+        // Filter rows based on the selected role
+        for (let i = 0; i < rows.length; i++) {
+            const roleCell = rows[i].getElementsByTagName('td')[3]; // 4th column is Role
+            rows[i].style.display = (role === 'All' || roleCell.textContent === role) ? '' : 'none';
+        }
+        updatePaginationControls(); // Update pagination after filtering
+    }
+
+    function editUser(id, name, email, role) {
+        // Fill the edit form with user data
+        document.getElementById('editUserName').value = name;
+        document.getElementById('editUserEmail').value = email;
+        document.getElementById('editUserRole').value = role;
+    }
+
+    function deleteUser(id) {
+        // Handle user deletion
+        console.log("Deleting user with ID:", id);
+    }
+
+    // Initial display of rows and pagination controls
+    displayRows();
+</script>
 
 </body>
 </html>
