@@ -129,7 +129,7 @@
                                 <label for="userPassword" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="userPassword" required>
                             </div>
-                            <button type="submit" class="btn btn-primary">Add Account</button>
+                            <button type="submit" class="btn btn-success">Add Account</button>
                             <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
                         </form>
                     </div>
@@ -227,15 +227,9 @@
                             <option value="Admin">Admin</option>
                         </select>
                     </div>
-                    <div class="mb-3">
-                            <label for="editUserPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="editUserPassword" placeholder="Leave blank to keep current password">
-                    </div>
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                    <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
                 </form>
-            </div>
-            <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-outline-danger">Save Changes</button>
             </div>
         </div>
     </div>
@@ -243,23 +237,19 @@
 
 <!-- Delete User Modal -->
 <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteUserModalLabel">Delete User</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this user?</p>
-                    <p class="fw-bold" id="deleteUserName"></p>
-                    <input type="hidden" id="deleteUserId">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger">Delete User</button>
-                </div>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteUserModalLabel">Delete Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this account?</p>
+                <button type="button" class="btn btn-danger">Delete</button>
+                <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
+    </div>
 </div>
 
 <script>
@@ -334,23 +324,6 @@
         // Handle user deletion
         console.log("Deleting user with ID:", id);
     }
-
-     // JavaScript to handle populating the delete modal with user data
-    var deleteUserModal = document.getElementById('deleteUserModal')
-        deleteUserModal.addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget
-            var userId = button.getAttribute('data-user-id')
-            var modalTitle = deleteUserModal.querySelector('.modal-title')
-            var userIdInput = deleteUserModal.querySelector('#deleteUserId')
-            var userNameElement = deleteUserModal.querySelector('#deleteUserName')
-
-            modalTitle.textContent = 'Delete User ' + userId
-            userIdInput.value = userId
-            userNameElement.textContent = 'John Doe' // Replace with actual user name
-
-            // Here you would typically fetch the user data to display the name
-            // For this example, we're using a placeholder name
-    })
 
     // Initial display of rows and pagination controls
     displayRows();
