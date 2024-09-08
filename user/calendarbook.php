@@ -133,7 +133,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-dark" onclick="save_event()">Save Booking</button>
+                    <button type="button" class="btn btn-success" onclick="save_event()">Save Booking</button>
                 </div>
             </div>
         </div>
