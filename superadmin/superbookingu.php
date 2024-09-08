@@ -169,8 +169,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-dark">Book Room</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success">Book Room</button>
                 </div>
             </div>
         </div>
@@ -258,8 +258,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-dark" >Update Booking</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" >Update Booking</button>
                 </div>
             </div>
         </div>
@@ -303,7 +303,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Keep Booking</button>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">No, Keep Booking</button>
                     <button type="button" class="btn btn-danger" >Yes, Cancel Booking</button>
                 </div>
             </div>
