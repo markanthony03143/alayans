@@ -76,7 +76,7 @@
                         <input type="text" class="form-control" id="filterUser" placeholder="Enter user name">
                     </div>
                     <div class="col-md-3 d-flex align-items-end">
-                        <button type="button" class="btn btn-danger me-2" onclick="applyFilter()">Apply Filter</button>
+                        <button type="button" class="btn btn-success me-2" onclick="applyFilter()">Apply Filter</button>
                         <button type="button" class="btn btn-secondary" onclick="resetFilter()">Reset</button>
                     </div>
                 </form>
