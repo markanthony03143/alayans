@@ -64,14 +64,14 @@
     <div class="d-grid gap-2 d-md-flex">
       <button
         type="button"
-        class="btn btn-outline-danger"
+        class="btn btn-outline-primary"
         onclick="generateRoomUsageReport()"
       >
         Generate Report
       </button>
       <button
         type="button"
-        class="btn btn-danger"
+        class="btn btn-secondary"
         onclick="generateRoomUsageReport()"
       >
         Export
