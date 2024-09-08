@@ -66,7 +66,7 @@
             <option value="120">4 hours</option>
         </select>
         </div>
-        <button type="submit" class="btn btn-danger">Save Changes</button>
+        <button type="submit" class="btn btn-success">Save Changes</button>
     </form>
     </div>
 </body>
